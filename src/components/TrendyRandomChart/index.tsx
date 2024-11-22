@@ -1,47 +1,73 @@
-import React, { useState, useEffect, useCallback } from "react";
-import {
-  LineChart,
-  Line,
-  XAxis,
-  YAxis,
-  CartesianGrid,
-  Tooltip,
-  ResponsiveContainer,
-} from "recharts";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { useCallback, useEffect, useState } from "react";
+import {
+  CartesianGrid,
+  Line,
+  LineChart,
+  ResponsiveContainer,
+  Tooltip,
+  XAxis,
+  YAxis,
+} from "recharts";
+
+interface ChartData {
+  x: number;
+  value: number;
+}
+
+interface Settings {
+  noiseLevel: number;
+  eventNoiseLevel: number;
+  boxBoundaryStrength: number;
+  cyclicStrength: number;
+  meanReversionRate: number;
+  useBoxBoundary: boolean;
+  seed: number;
+  useSeed: boolean;
+}
 
 // Seeded Random Number Generator
 class RandomGenerator {
-  seed: number;
+  private seed: number;
 
-  constructor(seed = Math.random()) {
+  constructor(seed: number = Math.random()) {
     this.seed = seed;
   }
 
   // Simple LCG (Linear Congruential Generator)
-  random() {
+  random(): number {
     this.seed = (1664525 * this.seed + 1013904223) % 4294967296;
     return this.seed / 4294967296;
   }
 }
 
-const TrendyRandomChart = () => {
-  const [data, setData] = useState([]);
-  const [settings, setSettings] = useState({
+interface SliderProps {
+  label: string;
+  value: number;
+  onChange: (value: string) => void;
+  min?: number;
+  max?: number;
+  step?: number;
+  disabled?: boolean;
+}
+
+const TrendyRandomChart: React.FC = () => {
+  const [data, setData] = useState<ChartData[]>([]);
+  const [settings, setSettings] = useState<Settings>({
     noiseLevel: 0.1,
     eventNoiseLevel: 0.3,
     boxBoundaryStrength: 0.5,
     cyclicStrength: 0.3,
     meanReversionRate: 0.1,
     useBoxBoundary: true,
-    seed: Date.now(), // 초기 시드값
-    useSeed: false, // 시드 사용 여부
+    seed: Date.now(),
+    useSeed: false,
   });
 
-  const totalPoints = 500;
+  const totalPoints: number = 500;
 
-  const generateMathExpression = useCallback(() => {
+  const generateMathExpression = useCallback((): string => {
     const expressions = [
       "Parameters:",
       `seed = ${settings.useSeed ? settings.seed : "random"}`,
@@ -62,9 +88,9 @@ const TrendyRandomChart = () => {
     return expressions;
   }, [settings]);
 
-  const generateData = useCallback(() => {
-    const newData = [];
-    let lastValue = 0.5;
+  const generateData = useCallback((): ChartData[] => {
+    const newData: ChartData[] = [];
+    let lastValue: number = 0.5;
 
     // Initialize random generator with seed if enabled
     const rng = new RandomGenerator(
@@ -72,15 +98,15 @@ const TrendyRandomChart = () => {
     );
 
     for (let i = 0; i < totalPoints; i++) {
-      const trend =
+      const trend: number =
         settings.cyclicStrength *
         (0.3 * Math.sin(i * 0.05) +
           0.1 * Math.sin(i * 0.1) +
           0.05 * Math.sin(i * 0.2));
 
       // Use seeded random generator
-      const noise = (rng.random() - 0.5) * settings.noiseLevel;
-      const eventNoise =
+      const noise: number = (rng.random() - 0.5) * settings.noiseLevel;
+      const eventNoise: number =
         rng.random() < 0.05
           ? (rng.random() - 0.5) * settings.eventNoiseLevel
           : 0;
@@ -90,8 +116,8 @@ const TrendyRandomChart = () => {
         (0.5 + trend + noise + eventNoise) * settings.meanReversionRate;
 
       if (settings.useBoxBoundary) {
-        const boxCenter = 0.5;
-        const deviation = lastValue - boxCenter;
+        const boxCenter: number = 0.5;
+        const deviation: number = lastValue - boxCenter;
         lastValue = boxCenter + deviation * (1 - settings.boxBoundaryStrength);
         lastValue = Math.max(0.2, Math.min(0.8, lastValue));
       }
@@ -104,19 +130,22 @@ const TrendyRandomChart = () => {
     return newData;
   }, [settings]);
 
-  const handleSettingChange = (setting, value) => {
+  const handleSettingChange = (
+    setting: keyof Settings,
+    value: number | boolean | string
+  ): void => {
     setSettings((prev) => ({
       ...prev,
       [setting]:
         typeof value === "boolean"
           ? value
           : setting === "seed"
-          ? parseInt(value) || prev.seed
-          : parseFloat(value),
+          ? parseInt(value.toString()) || prev.seed
+          : parseFloat(value.toString()),
     }));
   };
 
-  const generateNewSeed = () => {
+  const generateNewSeed = (): void => {
     handleSettingChange("seed", Math.floor(Math.random() * 1000000));
   };
 
@@ -124,7 +153,7 @@ const TrendyRandomChart = () => {
     setData(generateData());
   }, [settings, generateData]);
 
-  const Slider = ({
+  const Slider: React.FC<SliderProps> = ({
     label,
     value,
     onChange,
