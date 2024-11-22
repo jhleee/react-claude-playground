@@ -1,50 +1,71 @@
-# React + TypeScript + Vite
+# Claude's React Component Collection 🎨
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Claude AI가 생성한 React 컴포넌트들을 모아둔 레포지토리입니다. 각 컴포넌트는 TypeScript로 작성되었으며, Tailwind CSS와 shadcn/ui를 기반으로 합니다.
 
-Currently, two official plugins are available:
+## 🚀 시작하기
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+### 설치
 
-## Expanding the ESLint configuration
+```bash
+# 레포지토리 클론
+git clone https://github.com/jhleee/react-claude-playground.git
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
-
-- Configure the top-level `parserOptions` property like this:
-
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
+# 의존성 설치
+cd claude-react-components
+npm install
 ```
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
+### 개발 서버 실행
 
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
-
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
+```bash
+npm run dev
 ```
+
+## 🛠️ 기술 스택
+
+- React 18
+- TypeScript
+- Tailwind CSS
+- shadcn/ui
+- Vite
+- Recharts
+- Lucide React
+
+## 📂 프로젝트 구조
+
+```
+├─public
+└─src
+    ├─components          # 생성된 컴포넌트를 넣어둡니다.
+    │  ├─ManyCompoent
+    │  ├─...
+    │  └─ui               # shadcn/ui 컴포넌트
+    ├─hooks               # 커스텀 훅
+    └─lib                 # 유틸리티 함수
+```
+
+## 🔧 컴포넌트 추가하기
+
+1. `src/components` 디렉토리에 새 컴포넌트 폴더 생성
+2. 컴포넌트 코드 작성 (`index.tsx`)
+3. 스타일 정의 (Tailwind CSS 사용)
+4. 테스트 코드 작성 (선택사항)
+5. 문서 업데이트
+
+## ⚙️ 설정 커스터마이징
+
+### Tailwind 설정
+
+`tailwind.config.js`에서 테마 및 플러그인을 설정할 수 있습니다.
+
+### Vite 설정
+
+`vite.config.ts`에서 빌드 및 개발 설정을 변경할 수 있습니다.
+
+## 🤝 기여하기
+
+1. 이 레포지토리를 포크합니다
+2. 새 브랜치를 생성합니다 (`git checkout -b feature/AmazingFeature`)
+3. 변경사항을 커밋합니다 (`git commit -m 'Add some AmazingFeature'`)
+4. 브랜치에 푸시합니다 (`git push origin feature/AmazingFeature`)
+5. Pull Request를 생성합니다
