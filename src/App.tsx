@@ -1,10 +1,11 @@
 // src/App.tsx
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import Counter from "@/components/Counter";
 import LiquidText from "@/components/LiquidText";
 import Menu from "@/components/Menu";
-import Counter from "@/components/Counter";
 import TrendyRandomChart from "@/components/TrendyRandomChart";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 import "./App.css";
+import SimpleRAG from "./components/SimpleRAG";
 
 function App() {
   const menuItems = [
@@ -14,6 +15,11 @@ function App() {
       link: "/TrendyRandomChart",
       label: "TrendyRandomChart",
       element: <TrendyRandomChart />,
+    },
+    {
+      link: "/SimpleRag",
+      label: "SimpleRag",
+      element: <SimpleRAG />,
     },
   ];
 
