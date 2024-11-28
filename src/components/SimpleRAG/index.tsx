@@ -1,5 +1,5 @@
-import React, { FormEvent, useState } from "react";
-import { Send, Loader2 } from "lucide-react";
+import { Loader2, Send } from "lucide-react";
+import { FormEvent, useState } from "react";
 
 const SimpleRAG = () => {
   const [question, setQuestion] = useState("");
